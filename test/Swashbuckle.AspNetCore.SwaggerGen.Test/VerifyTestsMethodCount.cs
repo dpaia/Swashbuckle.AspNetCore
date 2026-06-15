@@ -10,6 +10,6 @@ public class VerifyTestsMethodCount
     {
         var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         var methods = typeof(VerifyTests).GetMethods(flags);
-        Assert.Equal(44, methods.Length);
+         Assert.Equal(44, methods.Length);
     }
 }

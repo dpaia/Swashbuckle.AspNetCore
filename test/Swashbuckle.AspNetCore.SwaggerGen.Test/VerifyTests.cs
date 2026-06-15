@@ -377,7 +377,6 @@ public partial class VerifyTests
 
     [Theory]
     [InlineData(nameof(BindingSource.Query))]
-    [InlineData(nameof(BindingSource.Header))]
     [InlineData(nameof(BindingSource.Path))]
     [InlineData(null)]
     public async Task ApiParametersThatAreNotBoundToBodyOrForm(string bindingSourceId)

@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "benchmark_type": "codegen",
+  "language": "csharp",
+  "dotnet_sdk": "10.0",
+  "test_project": "test/Swashbuckle.AspNetCore.SwaggerGen.Test/Swashbuckle.AspNetCore.SwaggerGen.Test.csproj",
+  "test_framework_flag": "--framework net10.0",
+  "test_logger": "trx;LogFileName=results.trx",
+  "expected": {
+    "fail_to_pass": ["Swashbuckle.AspNetCore.SwaggerGen.Test.VerifyTestsMethodCount.TestCountMethods"],
+    "pass_to_pass": ["Swashbuckle.AspNetCore.SwaggerGen.Test.VerifyTests"],
+    "fail_to_fail": [],
+    "fail_to_fail_strict": true
+  },
+  "patch": {
+    "source_patterns": ["test/Swashbuckle.AspNetCore.SwaggerGen.Test/VerifyTests.cs"],
+    "test_patterns": ["test/Swashbuckle.AspNetCore.SwaggerGen.Test/VerifyTestsMethodCount.cs"]
+  }
+}

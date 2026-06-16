@@ -24,7 +24,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-
 # (Optional) Install additional dotnet SDK versions if tests target multiple frameworks
 # RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh && \
 #     chmod +x ./dotnet-install.sh && \

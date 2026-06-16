@@ -18,7 +18,12 @@ RUN apt-get update && \
     sudo \
     python3 \
     python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* 
+
+# Install node (needed to build the solution)
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash - && \
+    apt-get install -y nodejs
+
 
 # (Optional) Install additional dotnet SDK versions if tests target multiple frameworks
 # RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh && \

@@ -47,7 +47,15 @@ for %%P in (Swashbuckle.AspNetCore.ReDoc Swashbuckle.AspNetCore.SwaggerUI) do (
 
 echo.
 
-"%DOTNET%" test "Swashbuckle.AspNetCore.slnx" --configuration Release --framework net10.0 %*
+REM Run the tests, filtering out the benign "Unhandled exception" blocks the CLI
+REM negative-tests trigger on purpose: they spawn the Swashbuckle CLI with unsupported
+REM --openapiversion values, the CLI throws NotSupportedException by design, and the
+REM tests assert on that. The child process writes those stack traces straight to the
+REM console (stderr), so dotnet test verbosity flags can't hide them — we drop them
+REM from the live stream here instead. We merge stderr (2>&1) so the filter can see
+REM them, and exit with $LASTEXITCODE, which keeps dotnet's real exit code because
+REM Where-Object is a cmdlet, not a native command.
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '%DOTNET%' test 'Swashbuckle.AspNetCore.slnx' --configuration Release --framework net10.0 %* 2>&1 | Where-Object { $_ -notmatch '^(Unhandled exception\.|\s+at |--- End of stack trace)' }; exit $LASTEXITCODE"
 
 set EXITCODE=%ERRORLEVEL%
 

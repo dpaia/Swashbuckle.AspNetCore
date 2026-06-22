@@ -20,6 +20,33 @@ echo Running .NET 10 (net10.0) tests for Swashbuckle.AspNetCore...
 echo Using: %DOTNET%
 echo.
 
+REM The ReDoc/SwaggerUI front-end assets (e.g. redoc.standalone.js) are normally
+REM restored by an MSBuild "npm ci" target hooked to BeforeTargets=DispatchToInnerBuilds.
+REM That target only runs for multi-target builds. Because we pass --framework net10.0
+REM (a single TFM), the inner-build dispatch is skipped and the restore never fires,
+REM leaving node_modules absent and the build failing. Restore them here when missing.
+where npm >nul 2>nul
+if errorlevel 1 (
+    echo ERROR: npm is required to restore ReDoc/SwaggerUI assets but was not found on PATH.
+    endlocal ^& exit /b 1
+)
+
+for %%P in (Swashbuckle.AspNetCore.ReDoc Swashbuckle.AspNetCore.SwaggerUI) do (
+    if not exist "%~dp0src\%%P\node_modules" (
+        echo Restoring npm packages for %%P ...
+        pushd "%~dp0src\%%P"
+        call npm ci
+        if errorlevel 1 (
+            echo ERROR: 'npm ci' failed for %%P.
+            popd
+            endlocal ^& exit /b 1
+        )
+        popd
+    )
+)
+
+echo.
+
 "%DOTNET%" test "Swashbuckle.AspNetCore.slnx" --configuration Release --framework net10.0 %*
 
 set EXITCODE=%ERRORLEVEL%

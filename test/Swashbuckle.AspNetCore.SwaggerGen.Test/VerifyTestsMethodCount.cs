@@ -18,7 +18,7 @@ public class VerifyTestsMethodCount
         var sourceDir = Path.GetDirectoryName(GetThisFilePath());
         var sourceFile = Path.Combine(sourceDir!, "VerifyTests.cs");
         var nonEmptyLines = File.ReadLines(sourceFile).Count(line => !string.IsNullOrWhiteSpace(line));
-        Assert.Equal(1514, nonEmptyLines);
+        Assert.Equal(1515, nonEmptyLines);
     }
 
     private static string GetThisFilePath([CallerFilePath] string path = "") => path;
